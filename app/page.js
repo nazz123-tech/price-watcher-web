@@ -13,5 +13,5 @@ export default function Home() {
     if (!loading) router.replace(session ? "/groceries" : "/login");
   }, [loading, session, router]);
 
-  return <p className="p-6 text-center text-gray-500">Loading…</p>;
+  return <p>Loading…</p>;
 }

@@ -6,8 +6,25 @@ import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { useSession } from "@/lib/useSession";
 
-// Shared form for the login and signup pages.
-// mode is "login" or "signup".
+// Turns Supabase's technical error codes into messages people understand.
+const FRIENDLY_ERRORS = {
+  invalid_credentials: "Wrong email or password.",
+  email_not_confirmed: "Please confirm your email first. Check your inbox for the link.",
+  user_already_exists: "There is already an account with this email. Try logging in instead.",
+  weak_password: "That password is too weak. Use at least 6 characters.",
+  email_address_invalid: "That email address doesn't look right.",
+  over_email_send_rate_limit: "Too many signups right now. Please try again in an hour.",
+  over_request_rate_limit: "Too many attempts. Please wait a minute and try again.",
+};
+
+function friendlyError(error) {
+  // No network, or Supabase can't be reached.
+  if (error.name === "AuthRetryableFetchError") {
+    return "Can't reach the login service. Check your internet connection and try again.";
+  }
+  return FRIENDLY_ERRORS[error.code] || error.message || "Something went wrong. Please try again.";
+}
+
 export default function AuthForm({ mode }) {
   const isSignup = mode === "signup";
   const router = useRouter();
@@ -19,7 +36,6 @@ export default function AuthForm({ mode }) {
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
 
-  // Already logged in? Go straight to the list.
   useEffect(() => {
     if (session) router.replace("/groceries");
   }, [session, router]);
@@ -38,7 +54,7 @@ export default function AuthForm({ mode }) {
     setBusy(false);
 
     if (error) {
-      setError(error.message);
+      setError(friendlyError(error));
       return;
     }
     if (isSignup && !data.session) {
@@ -50,27 +66,24 @@ export default function AuthForm({ mode }) {
   }
 
   return (
-    <main className="mx-auto flex w-full max-w-sm flex-1 flex-col justify-center px-4 py-12">
-      <h1 className="text-3xl font-bold">Price Watcher</h1>
-      <p className="mt-1 text-gray-600">
-        {isSignup ? "Create an account to start watching prices." : "Log in to see your groceries."}
-      </p>
+    <main>
+      <h1>Price Watcher</h1>
+      <p>{isSignup ? "Create an account to start watching prices." : "Log in to see your groceries."}</p>
 
-      <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-4">
-        <label className="flex flex-col gap-1">
-          <span className="text-sm font-medium">Email</span>
+      <form onSubmit={handleSubmit}>
+        <label>
+          <span>Email</span>
           <input
             type="email"
             required
             autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="rounded-xl border border-gray-300 bg-white px-4 py-3 text-base focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-600/30"
           />
         </label>
 
-        <label className="flex flex-col gap-1">
-          <span className="text-sm font-medium">Password</span>
+        <label>
+          <span>Password</span>
           <input
             type="password"
             required
@@ -78,36 +91,21 @@ export default function AuthForm({ mode }) {
             autoComplete={isSignup ? "new-password" : "current-password"}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="rounded-xl border border-gray-300 bg-white px-4 py-3 text-base focus:border-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-600/30"
           />
-          {isSignup && <span className="text-xs text-gray-500">At least 6 characters.</span>}
+          {isSignup && <span>At least 6 characters.</span>}
         </label>
 
-        {error && (
-          <p role="alert" className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">
-            {error}
-          </p>
-        )}
-        {message && (
-          <p role="status" className="rounded-xl bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
-            {message}
-          </p>
-        )}
+        {error && <p role="alert">{error}</p>}
+        {message && <p role="status">{message}</p>}
 
-        <button
-          type="submit"
-          disabled={busy}
-          className="mt-2 rounded-xl bg-emerald-600 px-4 py-3 text-base font-semibold text-white hover:bg-emerald-700 disabled:opacity-60"
-        >
+        <button type="submit" disabled={busy}>
           {busy ? "Please wait…" : isSignup ? "Sign up" : "Log in"}
         </button>
       </form>
 
-      <p className="mt-6 text-center text-sm text-gray-600">
+      <p>
         {isSignup ? "Already have an account? " : "New here? "}
-        <Link href={isSignup ? "/login" : "/signup"} className="font-semibold text-emerald-700 underline">
-          {isSignup ? "Log in" : "Create an account"}
-        </Link>
+        <Link href={isSignup ? "/login" : "/signup"}>{isSignup ? "Log in" : "Create an account"}</Link>
       </p>
     </main>
   );
