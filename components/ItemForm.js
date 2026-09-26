@@ -5,14 +5,27 @@ import { parsePrice } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
+// Radix Select can't use "" as a value, so "no list" gets its own marker.
+const NO_LIST = "none";
 
 // Form used both for adding a new grocery and editing an existing one.
-// onSubmit receives { name, search, target_price } and should throw
+// onSubmit receives { name, search, target_price, list_id } and should throw
 // an Error with a readable message if saving fails.
-export default function ItemForm({ initial, submitLabel, onSubmit, onCancel }) {
+// lists: the user's lists for the list picker; defaultListId preselects one when adding.
+export default function ItemForm({
+  initial,
+  lists = [],
+  defaultListId = null,
+  submitLabel,
+  onSubmit,
+  onCancel,
+}) {
   const [name, setName] = useState(initial?.name ?? "");
   const [search, setSearch] = useState(initial?.search ?? "");
   const [price, setPrice] = useState(initial ? String(initial.target_price).replace(".", ",") : "");
+  const [listId, setListId] = useState((initial ? initial.list_id : defaultListId) ?? NO_LIST);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
 
@@ -28,7 +41,12 @@ export default function ItemForm({ initial, submitLabel, onSubmit, onCancel }) {
 
     setBusy(true);
     try {
-      await onSubmit({ name: name.trim(), search: search.trim(), target_price: targetPrice });
+      await onSubmit({
+        name: name.trim(),
+        search: search.trim(),
+        target_price: targetPrice,
+        list_id: listId === NO_LIST ? null : listId,
+      });
       if (!initial) {
         // Clear the add form after a successful add.
         setName("");
@@ -89,6 +107,27 @@ export default function ItemForm({ initial, submitLabel, onSubmit, onCancel }) {
         />
       </div>
 
+      {lists.length > 0 && (
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="item-list">List</Label>
+          <Select value={listId} onValueChange={setListId}>
+            <SelectTrigger id="item-list" className="h-11 w-full bg-card text-base data-[size=default]:h-11">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent position="popper">
+              <SelectItem value={NO_LIST} className="py-2">
+                No list
+              </SelectItem>
+              {lists.map((list) => (
+                <SelectItem key={list.id} value={list.id} className="py-2">
+                  {list.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      )}
+
       {error && (
         <p role="alert" className="rounded-lg bg-destructive/10 px-4 py-3 text-sm text-destructive">
           {error}
@@ -97,11 +136,23 @@ export default function ItemForm({ initial, submitLabel, onSubmit, onCancel }) {
 
       <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
         {onCancel && (
-          <Button type="button" variant="outline" size="lg" className="h-11 px-5 text-base" onClick={onCancel}>
+          <Button
+            type="button"
+            variant="outline"
+            size="lg"
+            className="h-11 px-5 text-base"
+            onClick={onCancel}
+          >
             Cancel
           </Button>
         )}
-        <Button type="submit" size="lg" disabled={busy} className="h-11 px-6 text-base font-semibold">
+        <Button
+          type="submit"
+          variant="glow"
+          size="lg"
+          disabled={busy}
+          className="h-11 px-6 text-base font-semibold"
+        >
           {busy ? "Saving…" : submitLabel}
         </Button>
       </div>

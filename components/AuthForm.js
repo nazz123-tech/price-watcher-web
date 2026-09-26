@@ -146,7 +146,7 @@ export default function AuthForm({ mode }) {
             </p>
           )}
 
-          <Button type="submit" size="lg" disabled={busy} className="mt-1 h-12 text-base font-semibold">
+          <Button type="submit" variant="glow" size="lg" disabled={busy} className="mt-1 h-12 text-base font-semibold">
             {busy ? "Please wait…" : isSignup ? "Sign up" : "Log in"}
           </Button>
         </form>

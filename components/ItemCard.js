@@ -28,7 +28,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 // One grocery in the list: latest price, store, and how close it is to the target.
-export default function ItemCard({ item, onSave, onDelete }) {
+export default function ItemCard({ item, lists, listName, onSave, onDelete }) {
   const [editing, setEditing] = useState(false);
   const [confirmingDelete, setConfirmingDelete] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -64,7 +64,10 @@ export default function ItemCard({ item, onSave, onDelete }) {
             </span>
             <div className="min-w-0 flex-1 pt-1">
               <h3 className="truncate font-heading text-lg leading-tight font-bold">{item.name}</h3>
-              <p className="truncate text-sm text-muted-foreground">{item.search}</p>
+              <p className="truncate text-sm text-muted-foreground">
+                {item.search}
+                {listName && <span className="font-semibold text-olive"> · {listName}</span>}
+              </p>
             </div>
             <DropdownMenu>
               <DropdownMenuTrigger className="-mt-1 -mr-2 grid size-10 place-items-center rounded-full text-muted-foreground hover:bg-muted">
@@ -75,7 +78,11 @@ export default function ItemCard({ item, onSave, onDelete }) {
                 <DropdownMenuItem className="py-2" onSelect={() => setEditing(true)}>
                   <Pencil /> Edit
                 </DropdownMenuItem>
-                <DropdownMenuItem className="py-2" variant="destructive" onSelect={() => setConfirmingDelete(true)}>
+                <DropdownMenuItem
+                  className="py-2"
+                  variant="destructive"
+                  onSelect={() => setConfirmingDelete(true)}
+                >
                   <Trash2 /> Delete
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -88,13 +95,16 @@ export default function ItemCard({ item, onSave, onDelete }) {
                 <span
                   className={cn(
                     "font-heading text-3xl font-bold tracking-tight",
-                    item.is_deal ? "text-deal" : "text-foreground"
+                    item.is_deal ? "text-deal" : "text-foreground",
                   )}
                 >
                   {formatPrice(price)}
                 </span>
                 <span
-                  className={cn("text-sm font-semibold", difference <= 0 ? "text-deal" : "text-muted-foreground")}
+                  className={cn(
+                    "text-sm font-semibold",
+                    difference <= 0 ? "text-deal" : "text-muted-foreground",
+                  )}
                 >
                   {difference < 0
                     ? `−${formatPrice(-difference)}`
@@ -142,10 +152,11 @@ export default function ItemCard({ item, onSave, onDelete }) {
         <DialogContent className="max-h-[90dvh] overflow-y-auto sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="font-heading text-2xl font-bold">Edit {item.name}</DialogTitle>
-            <DialogDescription>Change the name, search words or your target price.</DialogDescription>
+            <DialogDescription>Change the name, search words, target price or list.</DialogDescription>
           </DialogHeader>
           <ItemForm
             initial={item}
+            lists={lists}
             submitLabel="Save changes"
             onCancel={() => setEditing(false)}
             onSubmit={async (fields) => {

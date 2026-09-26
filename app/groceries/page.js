@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowDownRight, Bookmark, Search, ShoppingBasket, Target } from "lucide-react";
+import { ArrowDownRight, Bookmark, ListPlus, Search, ShoppingBasket, Target } from "lucide-react";
 import { toast } from "sonner";
 import { api, getErrorMessage } from "@/lib/api";
 import { formatPrice, formatTimeAgo, formatToday } from "@/lib/format";
@@ -10,8 +10,11 @@ import { useApiGet } from "@/lib/useApiGet";
 import AddItemDialog from "@/components/AddItemDialog";
 import AppHeader from "@/components/AppHeader";
 import ItemCard from "@/components/ItemCard";
+import ManageListsDialog from "@/components/ManageListsDialog";
+import TinyTips from "@/components/TinyTips";
 import { FullPageLoading, ListLoading, LoadError } from "@/components/PageStates";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -27,8 +30,12 @@ export default function GroceriesPage() {
     retry,
   } = useApiGet("/items", Boolean(session));
 
+  // The user's lists (Breakfast, Dinner, …). If they fail to load, the page still works without them.
+  const { data: loadedLists, setData: setLists } = useApiGet("/lists", Boolean(session));
+  const lists = loadedLists ?? [];
+
   const [query, setQuery] = useState("");
-  const [filter, setFilter] = useState("all"); // "all" | "deals"
+  const [filter, setFilter] = useState("all"); // "all" | "deals" | a list id
 
   // The form shows its own error, so turn axios errors into readable Errors.
   async function addItem(fields) {
@@ -47,6 +54,40 @@ export default function GroceriesPage() {
       // Reload so the price info matches the (maybe new) search words.
       const { data } = await api.get("/items");
       setItems(data);
+    } catch (err) {
+      throw new Error(getErrorMessage(err));
+    }
+  }
+
+  // --- Lists ---
+  async function createList(name) {
+    try {
+      const { data } = await api.post("/lists", { name });
+      setLists((current) => [...(current ?? []), data]);
+      toast.success(`List “${data.name}” created`);
+    } catch (err) {
+      throw new Error(getErrorMessage(err));
+    }
+  }
+
+  async function renameList(id, name) {
+    try {
+      const { data } = await api.patch(`/lists/${id}`, { name });
+      setLists((current) => current.map((list) => (list.id === id ? data : list)));
+    } catch (err) {
+      throw new Error(getErrorMessage(err));
+    }
+  }
+
+  async function deleteList(id) {
+    try {
+      await api.delete(`/lists/${id}`);
+      setLists((current) => current.filter((list) => list.id !== id));
+      // Its groceries stay, just without a list (the database does the same).
+      setItems((current) =>
+        current?.map((item) => (item.list_id === id ? { ...item, list_id: null } : item)),
+      );
+      if (filter === id) setFilter("all");
     } catch (err) {
       throw new Error(getErrorMessage(err));
     }
@@ -75,13 +116,21 @@ export default function GroceriesPage() {
     .sort()
     .at(-1);
 
-  // Search box + "All / At target" tabs.
+  // Search box + "All / At target / <list>" tabs.
   const words = query.trim().toLowerCase();
+  const activeList = lists.find((list) => list.id === filter);
   const visibleItems = (items ?? []).filter(
     (item) =>
-      (filter === "all" || item.is_deal) &&
-      (!words || `${item.name} ${item.search}`.toLowerCase().includes(words))
+      (filter === "all" || (filter === "deals" ? item.is_deal : item.list_id === filter)) &&
+      (!words || `${item.name} ${item.search}`.toLowerCase().includes(words)),
   );
+
+  // For the list names on cards and the counts in "Your lists".
+  const listNames = Object.fromEntries(lists.map((list) => [list.id, list.name]));
+  const itemCounts = {};
+  for (const item of items ?? []) {
+    if (item.list_id) itemCounts[item.list_id] = (itemCounts[item.list_id] ?? 0) + 1;
+  }
 
   const firstName = session.user.user_metadata?.first_name;
 
@@ -91,41 +140,45 @@ export default function GroceriesPage() {
 
       <main className="flex-1">
         {/* Hero */}
-        <section className="mx-auto max-w-6xl px-4 pt-10 pb-8 sm:px-6 sm:pt-14">
-          <p className="eyebrow flex items-center gap-2 text-olive">
-            <span className="size-1.5 rounded-full bg-olive" aria-hidden />
-            {formatToday()}
-          </p>
-          <h1 className="mt-4 font-heading text-5xl leading-[0.95] font-bold tracking-[-0.04em] sm:text-7xl">
-            Good to see you,
-            <br />
-            <span className="text-olive">{firstName ? `${firstName}.` : "welcome back."}</span>
-          </h1>
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
-            Your list does the work. We check Norwegian grocery prices every morning and tell you what&apos;s
-            worth picking up, without checking five apps.
-          </p>
+        <section className="mx-auto grid max-w-6xl gap-8 px-4 pt-10 pb-8 sm:px-6 sm:pt-14 lg:grid-cols-[1fr_20rem] lg:items-end">
+          <div>
+            <p className="eyebrow flex items-center gap-2 text-olive">
+              <span className="size-1.5 rounded-full bg-olive" aria-hidden />
+              {formatToday()}
+            </p>
+            <h1 className="mt-4 font-heading text-5xl leading-[0.95] font-bold tracking-[-0.04em] sm:text-7xl">
+              Good to see you,
+              <br />
+              <span className="text-olive">{firstName ? `${firstName}.` : "welcome back."}</span>
+            </h1>
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
+              Your list does the work. We check Norwegian grocery prices every morning and tell you
+              what&apos;s worth picking up, without checking five apps.
+            </p>
 
-          <div className="mt-8 grid grid-cols-3 gap-2 sm:max-w-3xl sm:gap-3">
-            <StatCard
-              icon={Bookmark}
-              tone="bg-[#e3efcf] text-deal"
-              value={items ? items.length : "–"}
-              label="on your watch list"
-            />
-            <StatCard
-              icon={Target}
-              tone="bg-[#fdefc8] text-[#b58a45]"
-              value={items ? deals.length : "–"}
-              label="at target now"
-            />
-            <StatCard
-              icon={ArrowDownRight}
-              tone="bg-[#f6ddd6] text-destructive"
-              value={items ? formatPrice(Math.round(belowTarget * 100) / 100) : "–"}
-              label="below your targets"
-            />
+            <div className="mt-8 grid grid-cols-3 gap-2 sm:max-w-3xl sm:gap-3">
+              <StatCard
+                icon={Bookmark}
+                tone="bg-[#e3efcf] text-deal"
+                value={items ? items.length : "–"}
+                label="on your watch list"
+              />
+              <StatCard
+                icon={Target}
+                tone="bg-[#fdefc8] text-[#b58a45]"
+                value={items ? deals.length : "–"}
+                label="at target now"
+              />
+              <StatCard
+                icon={ArrowDownRight}
+                tone="bg-[#f6ddd6] text-destructive"
+                value={items ? formatPrice(Math.round(belowTarget * 100) / 100) : "–"}
+                label="below your targets"
+              />
+            </div>
           </div>
+
+          <TinyTips className="lg:mb-1" />
         </section>
 
         {/* Toolbar */}
@@ -142,16 +195,46 @@ export default function GroceriesPage() {
                 className="h-11 bg-card pl-10 text-base shadow-sm"
               />
             </div>
-            <Tabs value={filter} onValueChange={setFilter}>
-              <TabsList className="h-11 w-full bg-secondary p-1 sm:w-auto">
-                <TabsTrigger value="all" className="px-4 text-sm font-semibold data-active:bg-card">
-                  All
-                </TabsTrigger>
-                <TabsTrigger value="deals" className="px-4 text-sm font-semibold data-active:bg-card">
-                  At target
-                </TabsTrigger>
-              </TabsList>
-            </Tabs>
+            <div className="flex min-w-0 items-center gap-2">
+              {/* Scrolls sideways on phones when there are many lists */}
+              <Tabs value={filter} onValueChange={setFilter} className="min-w-0 flex-1 overflow-x-auto">
+                <TabsList className="h-11 w-max bg-secondary p-1">
+                  <TabsTrigger value="all" className="px-4 text-sm font-semibold data-active:bg-card">
+                    All
+                  </TabsTrigger>
+                  <TabsTrigger value="deals" className="px-4 text-sm font-semibold data-active:bg-card">
+                    At target
+                  </TabsTrigger>
+                  {lists.map((list) => (
+                    <TabsTrigger
+                      key={list.id}
+                      value={list.id}
+                      className="max-w-40 px-4 text-sm font-semibold data-active:bg-card"
+                    >
+                      <span className="truncate">{list.name}</span>
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
+              </Tabs>
+              <ManageListsDialog
+                lists={lists}
+                itemCounts={itemCounts}
+                onCreate={createList}
+                onRename={renameList}
+                onDelete={deleteList}
+                trigger={
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="h-11 shrink-0 gap-2 bg-card px-3 text-sm shadow-sm"
+                  >
+                    <ListPlus className="size-4" />
+                    <span className="hidden sm:inline">Lists</span>
+                    <span className="sr-only sm:hidden">Manage lists</span>
+                  </Button>
+                }
+              />
+            </div>
           </div>
         </section>
 
@@ -160,18 +243,20 @@ export default function GroceriesPage() {
           <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
             <div>
               <h2 className="flex items-center gap-3 font-heading text-3xl font-bold tracking-tight">
-                Your list
+                {activeList ? activeList.name : "Your list"}
                 {items && (
                   <Badge variant="outline" className="border-olive/40 bg-[#eef4e0] text-xs text-deal">
-                    {items.length}
+                    {visibleItems.length}
                   </Badge>
                 )}
               </h2>
               <p className="mt-1 text-muted-foreground">
-                {lastChecked ? `Last checked ${formatTimeAgo(lastChecked)}` : "Prices are checked every morning"}
+                {lastChecked
+                  ? `Last checked ${formatTimeAgo(lastChecked)}`
+                  : "Prices are checked every morning"}
               </p>
             </div>
-            <AddItemDialog onAdd={addItem} />
+            <AddItemDialog onAdd={addItem} lists={lists} defaultListId={activeList?.id ?? null} />
           </div>
 
           {loadError ? (
@@ -186,12 +271,25 @@ export default function GroceriesPage() {
           ) : visibleItems.length === 0 ? (
             <EmptyState
               title="No matches"
-              text={filter === "deals" ? "Nothing is at your target price right now." : "Try other words."}
+              text={
+                words
+                  ? "Try other words."
+                  : filter === "deals"
+                    ? "Nothing is at your target price right now."
+                    : "No groceries in this list yet. Add one, or move one here with Edit."
+              }
             />
           ) : (
             <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {visibleItems.map((item) => (
-                <ItemCard key={item.id} item={item} onSave={saveItem} onDelete={deleteItem} />
+                <ItemCard
+                  key={item.id}
+                  item={item}
+                  lists={lists}
+                  listName={listNames[item.list_id]}
+                  onSave={saveItem}
+                  onDelete={deleteItem}
+                />
               ))}
             </ul>
           )}
