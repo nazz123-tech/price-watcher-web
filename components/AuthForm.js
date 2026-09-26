@@ -5,6 +5,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { useSession } from "@/lib/useSession";
+import Logo from "@/components/Logo";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 // Turns Supabase's technical error codes into messages people understand.
 const FRIENDLY_ERRORS = {
@@ -66,47 +70,97 @@ export default function AuthForm({ mode }) {
   }
 
   return (
-    <main>
-      <h1>Price Watcher</h1>
-      <p>{isSignup ? "Create an account to start watching prices." : "Log in to see your groceries."}</p>
+    <main className="flex min-h-dvh flex-col items-center justify-center px-4 py-12">
+      <div className="w-full max-w-sm">
+        <Logo className="mb-10" />
+        <p className="eyebrow flex items-center gap-2 text-olive">
+          <span className="size-1.5 rounded-full bg-olive" aria-hidden />
+          {isSignup ? "Create account" : "Welcome back"}
+        </p>
+        <h1 className="mt-3 font-heading text-5xl leading-[0.95] font-bold tracking-[-0.04em]">
+          {isSignup ? (
+            <>
+              Start watching
+              <br />
+              <span className="text-olive">prices.</span>
+            </>
+          ) : (
+            <>
+              Good to see
+              <br />
+              <span className="text-olive">you again.</span>
+            </>
+          )}
+        </h1>
+        <p className="mt-4 text-lg text-muted-foreground">
+          {isSignup
+            ? "Add your groceries and we'll email you when they're cheap."
+            : "Log in to see your groceries."}
+        </p>
 
-      <form onSubmit={handleSubmit}>
-        <label>
-          <span>Email</span>
-          <input
-            type="email"
-            required
-            autoComplete="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </label>
+        <form
+          onSubmit={handleSubmit}
+          className="mt-8 flex flex-col gap-5 rounded-2xl border border-border bg-card p-6 shadow-sm"
+        >
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="email">Email</Label>
+            <Input
+              id="email"
+              type="email"
+              required
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="h-11 text-base"
+            />
+          </div>
 
-        <label>
-          <span>Password</span>
-          <input
-            type="password"
-            required
-            minLength={6}
-            autoComplete={isSignup ? "new-password" : "current-password"}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          {isSignup && <span>At least 6 characters.</span>}
-        </label>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="password">Password</Label>
+            <Input
+              id="password"
+              type="password"
+              required
+              minLength={6}
+              autoComplete={isSignup ? "new-password" : "current-password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="h-11 text-base"
+              aria-describedby={isSignup ? "password-help" : undefined}
+            />
+            {isSignup && (
+              <p id="password-help" className="text-sm text-muted-foreground">
+                At least 6 characters.
+              </p>
+            )}
+          </div>
 
-        {error && <p role="alert">{error}</p>}
-        {message && <p role="status">{message}</p>}
+          {error && (
+            <p role="alert" className="rounded-lg bg-destructive/10 px-4 py-3 text-sm text-destructive">
+              {error}
+            </p>
+          )}
+          {message && (
+            <p role="status" className="rounded-lg bg-[#eef4e0] px-4 py-3 text-sm text-deal">
+              {message}
+            </p>
+          )}
 
-        <button type="submit" disabled={busy}>
-          {busy ? "Please wait…" : isSignup ? "Sign up" : "Log in"}
-        </button>
-      </form>
+          <Button type="submit" size="lg" disabled={busy} className="mt-1 h-12 text-base font-semibold">
+            {busy ? "Please wait…" : isSignup ? "Sign up" : "Log in"}
+          </Button>
+        </form>
 
-      <p>
-        {isSignup ? "Already have an account? " : "New here? "}
-        <Link href={isSignup ? "/login" : "/signup"}>{isSignup ? "Log in" : "Create an account"}</Link>
-      </p>
+        <p className="mt-6 text-center text-muted-foreground">
+          {isSignup ? "Already have an account? " : "New here? "}
+          <Link
+            href={isSignup ? "/login" : "/signup"}
+            className="font-semibold text-foreground underline underline-offset-4"
+          >
+            {isSignup ? "Log in" : "Create an account"}
+          </Link>
+        </p>
+      </div>
     </main>
   );
 }

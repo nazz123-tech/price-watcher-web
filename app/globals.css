@@ -1,1 +1,102 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Colours from the Watchlist reference design:
+   warm off-white paper, deep green ink, olive and lime accents. */
+:root {
+  --background: #f4f3ee;
+  --foreground: #22403a;
+  --card: #fcfbf7;
+  --card-foreground: #22403a;
+  --popover: #fcfbf7;
+  --popover-foreground: #22403a;
+
+  /* Lime call-to-action ("Add item", "Now" chip) */
+  --primary: #d9ee6f;
+  --primary-foreground: #22403a;
+
+  --secondary: #e8eadf; /* tab bar, subtle fills */
+  --secondary-foreground: #22403a;
+  --muted: #efeee6;
+  --muted-foreground: #7d8a80;
+  --accent: #eceee2;
+  --accent-foreground: #22403a;
+  --destructive: #c4533c;
+  --border: #e3e1d6;
+  --input: #dcdacd;
+  --ring: #7a9a5a;
+  --radius: 0.625rem;
+
+  /* Extra colours used by the design */
+  --ink: #22403a; /* dark tiles, progress bars */
+  --olive: #7a9a5a; /* "welcome back.", date line */
+  --deal: #4c8a3e; /* price at or below target */
+  --band: #f7f6f1; /* toolbar strip */
+  --tile: #ece8dc; /* letter tile behind item names */
+  --tile-foreground: #b58a45;
+}
+
+@theme inline {
+  --font-sans: var(--font-dm-sans), system-ui, sans-serif;
+  --font-heading: var(--font-space-grotesk), system-ui, sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-ink: var(--ink);
+  --color-olive: var(--olive);
+  --color-deal: var(--deal);
+  --color-band: var(--band);
+  --color-tile: var(--tile);
+  --color-tile-foreground: var(--tile-foreground);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+@layer components {
+  /* Small spaced-out capitals, e.g. "FRIDAY 26 SEPTEMBER" */
+  .eyebrow {
+    @apply text-xs font-semibold tracking-[0.18em] uppercase;
+  }
+}

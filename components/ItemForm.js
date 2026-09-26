@@ -2,6 +2,9 @@
 
 import { useState } from "react";
 import { parsePrice } from "@/lib/format";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 // Form used both for adding a new grocery and editing an existing one.
 // onSubmit receives { name, search, target_price } and should throw
@@ -9,7 +12,7 @@ import { parsePrice } from "@/lib/format";
 export default function ItemForm({ initial, submitLabel, onSubmit, onCancel }) {
   const [name, setName] = useState(initial?.name ?? "");
   const [search, setSearch] = useState(initial?.search ?? "");
-  const [price, setPrice] = useState(initial ? String(initial.target_price) : "");
+  const [price, setPrice] = useState(initial ? String(initial.target_price).replace(".", ",") : "");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
 
@@ -40,53 +43,67 @@ export default function ItemForm({ initial, submitLabel, onSubmit, onCancel }) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        <span>Name</span>
-        <input
+    <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="item-name">Name</Label>
+        <Input
+          id="item-name"
           required
           maxLength={100}
           placeholder="Milk"
           value={name}
           onChange={(e) => setName(e.target.value)}
+          className="h-11 bg-card text-base"
         />
-      </label>
+      </div>
 
-      <label>
-        <span>Search words</span>
-        <input
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="item-search">Search words</Label>
+        <Input
+          id="item-search"
           required
           maxLength={100}
-          placeholder="tine lettmelk"
+          placeholder="tine lettmelk 1l"
           autoCapitalize="none"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          className="h-11 bg-card text-base"
+          aria-describedby="item-search-help"
         />
-        <span>A product matches if its name contains every word.</span>
-      </label>
+        <p id="item-search-help" className="text-sm text-muted-foreground">
+          A product matches if its name contains every word. Add brand and size (e.g. &ldquo;1l&rdquo;) to
+          avoid odd matches.
+        </p>
+      </div>
 
-      <label>
-        <span>Target price (kr)</span>
-        <input
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="item-price">Target price (kr)</Label>
+        <Input
+          id="item-price"
           required
           inputMode="decimal"
           placeholder="25"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
+          className="h-11 bg-card text-base"
         />
-      </label>
+      </div>
 
-      {error && <p role="alert">{error}</p>}
+      {error && (
+        <p role="alert" className="rounded-lg bg-destructive/10 px-4 py-3 text-sm text-destructive">
+          {error}
+        </p>
+      )}
 
-      <div>
+      <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
         {onCancel && (
-          <button type="button" onClick={onCancel}>
+          <Button type="button" variant="outline" size="lg" className="h-11 px-5 text-base" onClick={onCancel}>
             Cancel
-          </button>
+          </Button>
         )}
-        <button type="submit" disabled={busy}>
+        <Button type="submit" size="lg" disabled={busy} className="h-11 px-6 text-base font-semibold">
           {busy ? "Saving…" : submitLabel}
-        </button>
+        </Button>
       </div>
     </form>
   );

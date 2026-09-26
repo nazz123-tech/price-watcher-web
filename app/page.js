@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "@/lib/useSession";
+import { FullPageLoading } from "@/components/PageStates";
 
 // The start page just sends you to the right place.
 export default function Home() {
@@ -13,5 +14,5 @@ export default function Home() {
     if (!loading) router.replace(session ? "/groceries" : "/login");
   }, [loading, session, router]);
 
-  return <p>Loading…</p>;
+  return <FullPageLoading />;
 }
