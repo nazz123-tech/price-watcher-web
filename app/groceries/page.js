@@ -5,12 +5,15 @@ import { ArrowDownRight, Bookmark, ListPlus, Search, ShoppingBasket, Target } fr
 import { toast } from "sonner";
 import { api, getErrorMessage } from "@/lib/api";
 import { formatPrice, formatTimeAgo, formatToday } from "@/lib/format";
+import { supabase } from "@/lib/supabase";
 import { useRequireSession } from "@/lib/useSession";
 import { useApiGet } from "@/lib/useApiGet";
 import AddItemDialog from "@/components/AddItemDialog";
+import AppFooter from "@/components/AppFooter";
 import AppHeader from "@/components/AppHeader";
 import ItemCard from "@/components/ItemCard";
 import ManageListsDialog from "@/components/ManageListsDialog";
+import OnboardingGuide from "@/components/OnboardingGuide";
 import TinyTips from "@/components/TinyTips";
 import { FullPageLoading, ListLoading, LoadError } from "@/components/PageStates";
 import { Badge } from "@/components/ui/badge";
@@ -36,6 +39,28 @@ export default function GroceriesPage() {
 
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState("all"); // "all" | "deals" | a list id
+
+  // Onboarding guide: shown automatically until the user has finished it once
+  // (remembered in their Supabase profile, so it works across devices), and
+  // again via "How it works" or a link to /groceries#guide.
+  // null = "decide automatically".
+  const [guideOpen, setGuideOpen] = useState(() =>
+    typeof window !== "undefined" && window.location.hash === "#guide" ? true : null,
+  );
+  const [addOpen, setAddOpen] = useState(false);
+  const onboardingDone = Boolean(session?.user.user_metadata?.onboarding_done);
+  const showGuide = guideOpen ?? (Boolean(session) && !onboardingDone);
+
+  function finishGuide(addFirst) {
+    setGuideOpen(false);
+    if (window.location.hash === "#guide") history.replaceState(null, "", window.location.pathname);
+    if (!onboardingDone) {
+      // Remember it; if this fails, the guide just shows once more next time.
+      supabase.auth.updateUser({ data: { onboarding_done: true } }).catch(() => {});
+    }
+    // Let the guide close before the add dialog opens.
+    if (addFirst) setTimeout(() => setAddOpen(true), 200);
+  }
 
   // The form shows its own error, so turn axios errors into readable Errors.
   async function addItem(fields) {
@@ -136,7 +161,8 @@ export default function GroceriesPage() {
 
   return (
     <div className="flex min-h-dvh flex-col">
-      <AppHeader email={session.user.email} />
+      <AppHeader email={session.user.email} onShowGuide={() => setGuideOpen(true)} />
+      <OnboardingGuide open={showGuide} onFinish={finishGuide} />
 
       <main className="flex-1">
         {/* Hero */}
@@ -256,7 +282,13 @@ export default function GroceriesPage() {
                   : "Prices are checked every morning"}
               </p>
             </div>
-            <AddItemDialog onAdd={addItem} lists={lists} defaultListId={activeList?.id ?? null} />
+            <AddItemDialog
+              onAdd={addItem}
+              lists={lists}
+              defaultListId={activeList?.id ?? null}
+              open={addOpen}
+              onOpenChange={setAddOpen}
+            />
           </div>
 
           {loadError ? (
@@ -295,6 +327,7 @@ export default function GroceriesPage() {
           )}
         </section>
       </main>
+      <AppFooter />
     </div>
   );
 }

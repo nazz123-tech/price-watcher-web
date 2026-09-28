@@ -1,15 +1,35 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Lightbulb, RefreshCw } from "lucide-react";
 import { TIPS } from "@/lib/tips";
 import { cn } from "@/lib/utils";
+
+// How long the old tip takes to fade out before the new one fades in (ms).
+const FADE_MS = 220;
 
 // A random grocery tip for Norway, with a button for the next one.
 export default function TinyTips({ className }) {
   // Start on a random tip; "Next tip" walks through the rest in order.
   const [index, setIndex] = useState(() => Math.floor(Math.random() * TIPS.length));
+  const [leaving, setLeaving] = useState(false); // true while the old tip fades out
+  const [spins, setSpins] = useState(0); // turns the ↻ icon a full circle per click
+  const timer = useRef(null);
   const tip = TIPS[index];
+
+  // Don't change state after the card is gone.
+  useEffect(() => () => clearTimeout(timer.current), []);
+
+  function nextTip() {
+    if (leaving) return; // ignore double taps mid-animation
+    setSpins((n) => n + 1);
+    setLeaving(true);
+    // 1) fade the old tip out, 2) swap the text, 3) fade the new one in.
+    timer.current = setTimeout(() => {
+      setIndex((i) => (i + 1) % TIPS.length);
+      setLeaving(false);
+    }, FADE_MS);
+  }
 
   return (
     <section
@@ -19,7 +39,7 @@ export default function TinyTips({ className }) {
         className,
       )}
     >
-      {/* Decorative lime circles, like the "weekly finds" card in the design */}
+      {/* Decorative lime circle, like the "weekly finds" card in the design */}
       <span
         className="pointer-events-none absolute -top-10 -right-10 size-36 rounded-full border-[14px] border-primary/60"
         aria-hidden
@@ -31,18 +51,35 @@ export default function TinyTips({ className }) {
         </p>
         <button
           type="button"
-          onClick={() => setIndex((i) => (i + 1) % TIPS.length)}
-          className="grid size-10 shrink-0 place-items-center rounded-xl bg-card/80 text-foreground shadow-sm transition hover:bg-card"
+          onClick={nextTip}
+          className="grid size-10 shrink-0 place-items-center rounded-xl bg-card/80 text-foreground shadow-sm transition hover:bg-card active:scale-95"
           aria-label="Next tip"
         >
-          <RefreshCw className="size-4" />
+          <RefreshCw
+            className="size-4 transition-transform duration-500 ease-out motion-reduce:transition-none"
+            style={{ transform: `rotate(${spins * 360}deg)` }}
+          />
         </button>
       </div>
 
-      {/* aria-live so screen readers read the new tip after "Next tip" */}
-      <div className="relative mt-2" aria-live="polite">
-        <h2 className="font-heading text-lg leading-snug font-bold">{tip.title}</h2>
-        <p className="mt-1 text-sm leading-relaxed text-foreground/75">{tip.text}</p>
+      {/* min-h keeps the card from jumping when tips have different lengths.
+          aria-live so screen readers read the new tip after "Next tip". */}
+      <div className="relative mt-2 min-h-[7.5rem]" aria-live="polite">
+        <div
+          key={index}
+          className={cn(
+            // New tip: fade in and rise a little (tw-animate-css).
+            "animate-in fade-in slide-in-from-bottom-2 duration-300 ease-out",
+            // Old tip: fade out and drift up before it's swapped.
+            "transition-[opacity,transform] ease-in",
+            leaving && "-translate-y-1.5 opacity-0",
+            "motion-reduce:animate-none motion-reduce:transition-none motion-reduce:transform-none",
+          )}
+          style={{ transitionDuration: `${FADE_MS}ms` }}
+        >
+          <h2 className="font-heading text-lg leading-snug font-bold">{tip.title}</h2>
+          <p className="mt-1 text-sm leading-relaxed text-foreground/75">{tip.text}</p>
+        </div>
       </div>
     </section>
   );

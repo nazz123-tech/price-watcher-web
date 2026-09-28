@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LogOut, Settings } from "lucide-react";
+import { CircleHelp, LogOut, Settings } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { cn } from "@/lib/utils";
 import Logo from "@/components/Logo";
@@ -26,7 +26,9 @@ function initials(email = "") {
   return email.slice(0, 2).toUpperCase();
 }
 
-export default function AppHeader({ email }) {
+// onShowGuide: opens the onboarding guide on this page; without it,
+// "How it works" goes to the groceries page and opens the guide there.
+export default function AppHeader({ email, onShowGuide }) {
   const pathname = usePathname();
 
   return (
@@ -45,7 +47,7 @@ export default function AppHeader({ email }) {
                 "border-b-2 pb-1 text-[0.95rem] font-semibold transition-colors",
                 pathname === item.href
                   ? "border-olive text-foreground"
-                  : "border-transparent text-muted-foreground hover:text-foreground"
+                  : "border-transparent text-muted-foreground hover:text-foreground",
               )}
             >
               {item.label}
@@ -56,18 +58,33 @@ export default function AppHeader({ email }) {
         <DropdownMenu>
           <DropdownMenuTrigger className="rounded-full focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none">
             <Avatar className="size-10 ring-2 ring-card">
-              <AvatarFallback className="bg-[#cfe0a8] text-sm font-bold text-ink">{initials(email)}</AvatarFallback>
+              <AvatarFallback className="bg-[#cfe0a8] text-sm font-bold text-ink">
+                {initials(email)}
+              </AvatarFallback>
             </Avatar>
             <span className="sr-only">Account menu</span>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="min-w-56">
-            <DropdownMenuLabel className="truncate font-normal text-muted-foreground">{email}</DropdownMenuLabel>
+            <DropdownMenuLabel className="truncate font-normal text-muted-foreground">
+              {email}
+            </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild className="py-2">
               <Link href="/settings">
                 <Settings /> Settings
               </Link>
             </DropdownMenuItem>
+            {onShowGuide ? (
+              <DropdownMenuItem className="py-2" onSelect={onShowGuide}>
+                <CircleHelp /> How it works
+              </DropdownMenuItem>
+            ) : (
+              <DropdownMenuItem asChild className="py-2">
+                <Link href="/groceries#guide">
+                  <CircleHelp /> How it works
+                </Link>
+              </DropdownMenuItem>
+            )}
             <DropdownMenuItem className="py-2" onSelect={() => supabase.auth.signOut()}>
               <LogOut /> Log out
             </DropdownMenuItem>

@@ -2,12 +2,13 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, LogOut, Mail } from "lucide-react";
+import { ArrowLeft, CircleHelp, LogOut, Mail } from "lucide-react";
 import { toast } from "sonner";
 import { api, getErrorMessage } from "@/lib/api";
 import { supabase } from "@/lib/supabase";
 import { useRequireSession } from "@/lib/useSession";
 import { useApiGet } from "@/lib/useApiGet";
+import AppFooter from "@/components/AppFooter";
 import AppHeader from "@/components/AppHeader";
 import { FullPageLoading, InlineLoading, LoadError } from "@/components/PageStates";
 import { Button } from "@/components/ui/button";
@@ -115,10 +116,16 @@ export default function SettingsPage() {
               >
                 <LogOut className="size-4" /> Log out
               </Button>
+              <Button variant="ghost" size="lg" className="ml-2 h-11 gap-2 px-4 text-base" asChild>
+                <Link href="/groceries#guide">
+                  <CircleHelp className="size-4" /> How it works
+                </Link>
+              </Button>
             </CardContent>
           </Card>
         </div>
       </main>
+      <AppFooter />
     </div>
   );
 }
