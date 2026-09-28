@@ -1,30 +1,60 @@
-// Store name with a small coloured letter tile, like "[R] REMA 1000".
-// Colours roughly follow each chain's brand; unknown stores get a neutral tile.
-const STORE_COLORS = {
-  "rema 1000": "bg-[#e4322b] text-white",
-  kiwi: "bg-[#b9d53a] text-ink",
-  meny: "bg-[#f6cd4c] text-ink",
-  coop: "bg-[#1d5fa8] text-white",
-  "coop extra": "bg-[#1d5fa8] text-white",
-  "coop prix": "bg-[#1d5fa8] text-white",
-  "coop mega": "bg-[#1d5fa8] text-white",
-  "coop obs": "bg-[#1d5fa8] text-white",
-  extra: "bg-[#1d5fa8] text-white",
-  obs: "bg-[#1d5fa8] text-white",
-  joker: "bg-[#ffd21f] text-ink",
-  spar: "bg-[#0a8a4a] text-white",
-  bunnpris: "bg-[#f28c1c] text-white",
+import Image from "next/image";
+import { cn } from "@/lib/utils";
+
+// Store logos in public/icons/stores, keyed by the store name Kassalapp sends
+// (lowercased, extra spaces removed). Add a line here when you add a logo file.
+const STORE_LOGOS = {
+  "rema 1000": "rema-1000.svg",
+  rema: "rema-1000.svg",
+  kiwi: "kiwi.svg",
+  meny: "meny.svg",
+  spar: "spar.svg",
+  eurospar: "spar.svg",
+  joker: "joker.svg",
+  bunnpris: "bunnpris.svg",
+  oda: "oda.svg",
+  coop: "coop.svg",
+  "coop extra": "coop-extra.svg",
+  extra: "coop-extra.svg",
+  "coop mega": "coop-mega.svg",
+  mega: "coop-mega.svg",
+  "coop prix": "coop-prix.svg",
+  prix: "coop-prix.svg",
+  "coop marked": "coop-marked.svg",
+  "coop obs": "obs.svg",
+  obs: "obs.svg",
 };
 
-export default function StoreBadge({ store }) {
+// "Coop  Extra" -> "coop extra"
+function logoFor(store) {
+  return STORE_LOGOS[store.toLowerCase().replace(/\s+/g, " ").trim()] ?? null;
+}
+
+// Store name with its logo, like "[logo] REMA 1000".
+// Stores without a logo file get a neutral tile with their first letter.
+export default function StoreBadge({ store, className }) {
   if (!store) return null;
-  const colors = STORE_COLORS[store.toLowerCase()] ?? "bg-tile text-tile-foreground";
+  const logo = logoFor(store);
 
   return (
-    <span className="inline-flex min-w-0 items-center gap-2 text-sm font-semibold">
-      <span className={`grid size-7 shrink-0 place-items-center rounded-lg text-xs font-bold ${colors}`} aria-hidden>
-        {store.charAt(0).toUpperCase()}
-      </span>
+    <span className={cn("inline-flex min-w-0 items-center gap-2 text-sm font-semibold", className)}>
+      {logo ? (
+        <Image
+          src={`/icons/stores/${logo}`}
+          alt="" // the store name is written right next to it
+          width={32}
+          height={32}
+          unoptimized // SVGs are already small and sharp at any size
+          className="size-8 shrink-0 rounded-lg bg-white object-contain ring-1 ring-border"
+        />
+      ) : (
+        <span
+          className="grid size-8 shrink-0 place-items-center rounded-lg bg-tile text-xs font-bold text-tile-foreground"
+          aria-hidden
+        >
+          {store.charAt(0).toUpperCase()}
+        </span>
+      )}
       <span className="truncate">{store}</span>
     </span>
   );
