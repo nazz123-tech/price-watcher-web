@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { formatCheckedAt, formatPrice, isStale } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import ItemForm from "@/components/ItemForm";
+import ProductThumb from "@/components/ProductThumb";
 import StoreBadge from "@/components/StoreBadge";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -60,12 +61,7 @@ export default function ItemCard({ item, lists, listName, onSave, onDelete }) {
       >
         <div className="flex flex-1 flex-col gap-4 p-5">
           <div className="flex items-start gap-4">
-            <span
-              className="grid size-14 shrink-0 place-items-center rounded-2xl bg-tile font-heading text-xl font-bold text-tile-foreground"
-              aria-hidden
-            >
-              {item.name.charAt(0).toUpperCase()}
-            </span>
+            <ProductThumb src={item.image_url} name={item.name} />
             <div className="min-w-0 flex-1 pt-1">
               <h3 className="truncate font-heading text-lg leading-tight font-bold">{item.name}</h3>
               <p className="truncate text-sm text-muted-foreground">

@@ -57,7 +57,8 @@ export default function GroceriesPage() {
   async function addItem(fields) {
     try {
       const { data } = await api.post("/items", fields);
-      setItems((list) => [...list, { ...data, price: null, is_deal: false }]);
+      setItems((list) => [...list, data]);
+      return data;
     } catch (err) {
       throw new Error(getErrorMessage(err));
     }

@@ -147,7 +147,7 @@ export default function ItemForm({
           disabled={busy}
           className="h-11 px-6 text-base font-semibold"
         >
-          {busy ? "Saving…" : submitLabel}
+          {busy ? "Checking the price…" : submitLabel}
         </Button>
       </div>
     </form>

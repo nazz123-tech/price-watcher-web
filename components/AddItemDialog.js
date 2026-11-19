@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Plus } from "lucide-react";
 import { toast } from "sonner";
+import { formatPrice } from "@/lib/format";
 import ItemForm from "@/components/ItemForm";
 import { Button } from "@/components/ui/button";
 import {
@@ -39,9 +40,13 @@ export default function AddItemDialog({ onAdd, lists, defaultListId, open: openP
           submitLabel="Add to my list"
           onCancel={() => setOpen(false)}
           onSubmit={async (fields) => {
-            await onAdd(fields);
+            const added = await onAdd(fields);
             setOpen(false);
-            toast.success(`${fields.name} added to your list`);
+            toast.success(
+              added?.price != null
+                ? `${fields.name} added. Cheapest today: ${formatPrice(added.price)} at ${added.store}`
+                : `${fields.name} added to your list`,
+            );
           }}
         />
       </DialogContent>
