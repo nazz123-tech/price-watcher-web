@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { CircleHelp, LogOut, Settings } from "lucide-react";
+import { CircleHelp, Flame, LogOut, Settings } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { cn } from "@/lib/utils";
 import Logo from "@/components/Logo";
@@ -18,16 +18,14 @@ import {
 
 const NAV = [
   { href: "/groceries", label: "My list" },
+  { href: "/popular", label: "Popular" },
   { href: "/settings", label: "Settings" },
 ];
 
-// "road2thedream1@gmail.com" -> "RO"
 function initials(email = "") {
   return email.slice(0, 2).toUpperCase();
 }
 
-// onShowGuide: opens the onboarding guide on this page; without it,
-// "How it works" goes to the groceries page and opens the guide there.
 export default function AppHeader({ email, onShowGuide }) {
   const pathname = usePathname();
 
@@ -69,6 +67,11 @@ export default function AppHeader({ email, onShowGuide }) {
               {email}
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
+            <DropdownMenuItem asChild className="py-2 sm:hidden">
+              <Link href="/popular">
+                <Flame /> Popular
+              </Link>
+            </DropdownMenuItem>
             <DropdownMenuItem asChild className="py-2">
               <Link href="/settings">
                 <Settings /> Settings

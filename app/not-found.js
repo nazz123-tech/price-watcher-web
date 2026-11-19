@@ -6,7 +6,6 @@ export const metadata = {
   title: "Page not found",
 };
 
-// Shown for any address that doesn't exist.
 export default function NotFound() {
   return (
     <main className="flex min-h-dvh flex-col items-center justify-center px-4 py-12 text-center">

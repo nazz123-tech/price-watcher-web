@@ -1,6 +1,5 @@
 import { APP_NAME } from "@/lib/appInfo";
 
-// Page footer with the credit to Kassalapp, whose free API gives us the prices.
 export default function AppFooter() {
   return (
     <footer className="border-t border-border">

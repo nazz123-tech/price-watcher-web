@@ -2,7 +2,6 @@ import { ListPlus } from "lucide-react";
 import { APP_NAME, APP_TAGLINE } from "@/lib/appInfo";
 import { cn } from "@/lib/utils";
 
-// Dark tile with a lime ring, plus the app name (and tagline on wider screens).
 export default function Logo({ showTagline = true, className }) {
   return (
     <div className={cn("flex items-center gap-3", className)}>

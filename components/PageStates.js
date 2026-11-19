@@ -4,7 +4,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const WAKING_UP = "Waking up the server… this can take up to a minute the first time.";
 
-// Whole-screen spinner while we check the login session.
 export function FullPageLoading() {
   return (
     <div className="grid min-h-dvh place-items-center text-muted-foreground">
@@ -13,7 +12,6 @@ export function FullPageLoading() {
   );
 }
 
-// Placeholder cards while the list loads, with a friendly note if the server is asleep.
 export function ListLoading({ slow, cards = 3 }) {
   return (
     <div className="flex flex-col gap-4" aria-busy="true">
@@ -30,7 +28,6 @@ export function ListLoading({ slow, cards = 3 }) {
   );
 }
 
-// Loading text for small sections (e.g. settings).
 export function InlineLoading({ slow }) {
   return (
     <p role="status" className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -40,7 +37,6 @@ export function InlineLoading({ slow }) {
   );
 }
 
-// Error box with a "Try again" button.
 export function LoadError({ message, onRetry }) {
   return (
     <div role="alert" className="flex flex-col items-start gap-4 rounded-2xl bg-destructive/10 p-5 text-destructive">

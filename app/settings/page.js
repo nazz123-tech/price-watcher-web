@@ -19,7 +19,6 @@ import { Switch } from "@/components/ui/switch";
 export default function SettingsPage() {
   const { session, loading: sessionLoading } = useRequireSession();
 
-  // { email, email_alerts }, loaded from our backend.
   const {
     data: settings,
     setData: setSettings,
@@ -36,7 +35,6 @@ export default function SettingsPage() {
       setSettings(data);
       toast.success(emailAlerts ? "Email alerts turned on" : "Email alerts turned off");
     } catch (err) {
-      // The switch follows settings.email_alerts, so it jumps back by itself.
       toast.error(getErrorMessage(err));
     } finally {
       setSaving(false);

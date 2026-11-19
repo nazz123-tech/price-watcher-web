@@ -1,6 +1,5 @@
 import { SITE_URL } from "@/lib/appInfo";
-
-// Served at /sitemap.xml: the public pages.
+        
 export default function sitemap() {
   return [
     { url: `${SITE_URL}/login`, changeFrequency: "monthly", priority: 1 },

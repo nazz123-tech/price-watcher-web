@@ -14,8 +14,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-// Lime "Add item" button that opens the add form in a dialog.
-// Pass open/onOpenChange to open it from elsewhere (e.g. the onboarding guide).
 export default function AddItemDialog({ onAdd, lists, defaultListId, open: openProp, onOpenChange }) {
   const [openState, setOpenState] = useState(false);
   const open = openProp ?? openState;

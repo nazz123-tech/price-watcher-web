@@ -13,21 +13,17 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 
-// Quick picks shown until the user has a list with that name.
 const SUGGESTIONS = ["Breakfast", "Lunch", "Dinner", "Snacks", "Supper"];
 
-// Dialog to create, rename and delete lists.
-// onCreate / onRename / onDelete should throw an Error with a readable message on failure.
 export default function ManageListsDialog({ lists, itemCounts, onCreate, onRename, onDelete, trigger }) {
   const [open, setOpen] = useState(false);
   const [newName, setNewName] = useState("");
   const [editingId, setEditingId] = useState(null);
   const [editName, setEditName] = useState("");
-  const [deletingId, setDeletingId] = useState(null); // asking "are you sure?"
+  const [deletingId, setDeletingId] = useState(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
 
-  // Runs an action, showing "busy" and any error message.
   async function run(action) {
     setError("");
     setBusy(true);
@@ -79,7 +75,6 @@ export default function ManageListsDialog({ lists, itemCounts, onCreate, onRenam
           </DialogDescription>
         </DialogHeader>
 
-        {/* New list */}
         <form
           className="flex gap-2"
           onSubmit={(event) => {
@@ -129,7 +124,6 @@ export default function ManageListsDialog({ lists, itemCounts, onCreate, onRenam
           </p>
         )}
 
-        {/* Existing lists */}
         {lists.length === 0 ? (
           <div className="flex flex-col items-center gap-2 rounded-xl border border-dashed border-border px-4 py-8 text-center text-muted-foreground">
             <ListPlus className="size-5" aria-hidden />

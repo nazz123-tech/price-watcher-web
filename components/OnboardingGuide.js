@@ -17,7 +17,6 @@ import StoreBadge from "@/components/StoreBadge";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 
-// The steps of the guide. "example" is a small picture of the real UI.
 const STEPS = [
   {
     icon: ShoppingBasket,
@@ -56,12 +55,9 @@ const STEPS = [
   },
 ];
 
-// Step-by-step intro for new users.
-// onFinish(addFirst) is called when the guide closes; addFirst = true means
-// "open the Add item dialog now".
 export default function OnboardingGuide({ open, onFinish }) {
   const [step, setStep] = useState(0);
-  const [direction, setDirection] = useState(1); // 1 = forward, -1 = back (for the slide)
+  const [direction, setDirection] = useState(1);
   const current = STEPS[step];
   const isLast = step === STEPS.length - 1;
   const Icon = current.icon;
@@ -73,13 +69,12 @@ export default function OnboardingGuide({ open, onFinish }) {
 
   function finish(addFirst) {
     onFinish(addFirst);
-    setStep(0); // start from the beginning next time it's opened
+    setStep(0);
   }
 
   return (
     <Dialog open={open} onOpenChange={(next) => !next && finish(false)}>
       <DialogContent className="max-h-[92dvh] gap-0 overflow-y-auto p-0 sm:max-w-md" showCloseButton={false}>
-        {/* Top: coloured band with the step's icon */}
         <div className="relative overflow-hidden bg-[#eaf2d8] px-6 pt-6 pb-5">
           <span
             className="pointer-events-none absolute -top-12 -right-12 size-40 rounded-full border-[16px] border-primary/60"
@@ -101,7 +96,6 @@ export default function OnboardingGuide({ open, onFinish }) {
           </div>
         </div>
 
-        {/* Step content slides in from the side we're moving towards. */}
         <div
           key={step}
           className={cn(
@@ -121,7 +115,6 @@ export default function OnboardingGuide({ open, onFinish }) {
           <Example kind={current.example} />
         </div>
 
-        {/* Bottom: progress dots and buttons */}
         <div className="flex flex-col gap-4 px-6 pt-6 pb-6">
           <div className="flex justify-center gap-2" aria-label={`Step ${step + 1} of ${STEPS.length}`}>
             {STEPS.map((s, i) => (
@@ -180,7 +173,6 @@ export default function OnboardingGuide({ open, onFinish }) {
   );
 }
 
-// Small, non-interactive pictures of the real UI for each step.
 function Example({ kind }) {
   const frame = "rounded-2xl border border-border bg-card p-4";
 
@@ -264,7 +256,6 @@ function Example({ kind }) {
     );
   }
 
-  // email
   return (
     <div className={cn(frame, "flex flex-col gap-1")} aria-hidden>
       <p className="text-xs text-muted-foreground">From: Price Watcher · 08:00</p>

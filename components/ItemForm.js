@@ -7,13 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-// Radix Select can't use "" as a value, so "no list" gets its own marker.
 const NO_LIST = "none";
 
-// Form used both for adding a new grocery and editing an existing one.
-// onSubmit receives { name, search, target_price, list_id } and should throw
-// an Error with a readable message if saving fails.
-// lists: the user's lists for the list picker; defaultListId preselects one when adding.
 export default function ItemForm({
   initial,
   lists = [],
@@ -48,7 +43,6 @@ export default function ItemForm({
         list_id: listId === NO_LIST ? null : listId,
       });
       if (!initial) {
-        // Clear the add form after a successful add.
         setName("");
         setSearch("");
         setPrice("");

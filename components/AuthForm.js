@@ -10,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-// Turns Supabase's technical error codes into messages people understand.
 const FRIENDLY_ERRORS = {
   invalid_credentials: "Wrong email or password.",
   email_not_confirmed: "Please confirm your email first. Check your inbox for the link.",
@@ -22,7 +21,6 @@ const FRIENDLY_ERRORS = {
 };
 
 function friendlyError(error) {
-  // No network, or Supabase can't be reached.
   if (error.name === "AuthRetryableFetchError") {
     return "Can't reach the login service. Check your internet connection and try again.";
   }
@@ -62,7 +60,6 @@ export default function AuthForm({ mode }) {
       return;
     }
     if (isSignup && !data.session) {
-      // Supabase has "Confirm email" turned on: no session until they click the link.
       setMessage("Almost done! Check your email and click the link to confirm your account.");
       return;
     }

@@ -4,8 +4,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Colours from the Watchlist reference design:
-   warm off-white paper, deep green ink, olive and lime accents. */
 :root {
   --background: #f4f3ee;
   --foreground: #22403a;
@@ -14,14 +12,13 @@
   --popover: #fcfbf7;
   --popover-foreground: #22403a;
 
-  /* Lime call-to-action ("Add item", "Now" chip) */
   --primary: #d9ee6f;
   --primary-foreground: #22403a;
 
-  --secondary: #e8eadf; /* tab bar, subtle fills */
+  --secondary: #e8eadf;
   --secondary-foreground: #22403a;
   --muted: #efeee6;
-  --muted-foreground: #7d8a80;
+  --muted-foreground: #5f6b62;
   --accent: #eceee2;
   --accent-foreground: #22403a;
   --destructive: #c4533c;
@@ -30,13 +27,16 @@
   --ring: #7a9a5a;
   --radius: 0.625rem;
 
-  /* Extra colours used by the design */
-  --ink: #22403a; /* dark tiles, progress bars */
-  --olive: #7a9a5a; /* "welcome back.", date line */
-  --deal: #4c8a3e; /* price at or below target */
-  --band: #f7f6f1; /* toolbar strip */
-  --tile: #ece8dc; /* letter tile behind item names */
+  --ink: #22403a;
+  --olive: #7a9a5a;
+  --deal: #4c8a3e;
+  --band: #f7f6f1;
+  --tile: #ece8dc;
   --tile-foreground: #b58a45;
+  --tint-green: #e3efcf;
+  --tint-amber: #fdefc8;
+  --tint-red: #f6ddd6;
+  --tint-olive: #eef4e0;
 }
 
 @theme inline {
@@ -68,6 +68,10 @@
   --color-band: var(--band);
   --color-tile: var(--tile);
   --color-tile-foreground: var(--tile-foreground);
+  --color-tint-green: var(--tint-green);
+  --color-tint-amber: var(--tint-amber);
+  --color-tint-red: var(--tint-red);
+  --color-tint-olive: var(--tint-olive);
 
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
@@ -95,8 +99,6 @@
 }
 
 @layer components {
-  /* Glowing button, based on css-buttons.com #96, in our lime colours.
-     Hover (or keyboard focus): lime glow + a white shine sweeping across. */
   .btn-glow {
     position: relative;
     overflow: hidden;
@@ -129,7 +131,6 @@
     box-shadow: 0 0 0 0 transparent;
     transition: box-shadow 0.2s ease-in;
   }
-  /* Phones have no hover, so there the shine sweeps by itself every few seconds. */
   @media (hover: none) {
     .btn-glow::before {
       animation: glow-sweep-idle 4s linear infinite;
@@ -141,7 +142,6 @@
     }
   }
 
-  /* Small spaced-out capitals, e.g. "FRIDAY 26 SEPTEMBER" */
   .eyebrow {
     @apply text-xs font-semibold tracking-[0.18em] uppercase;
   }
@@ -161,7 +161,6 @@
   }
 }
 
-/* Same sweep, squeezed into the first 12% of a longer loop (a pause between shines). */
 @keyframes glow-sweep-idle {
   0% {
     opacity: 0;

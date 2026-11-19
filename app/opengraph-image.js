@@ -1,8 +1,6 @@
 import { ImageResponse } from "next/og";
 import { APP_DESCRIPTION, APP_NAME } from "@/lib/appInfo";
 
-// The picture shown when a link to the app is shared (Messenger, Slack, iMessage…).
-// Generated once at build time; every page uses it unless it has its own.
 export const alt = `${APP_NAME}: ${APP_DESCRIPTION}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -14,8 +12,6 @@ const PAPER = "#f4f3ee";
 const CARD = "#fcfbf7";
 const MUTED = "#7d8a80";
 
-// Loads Space Grotesk (the heading font) from Google Fonts, only the letters we use.
-// If that fails (e.g. no network during the build), the default font is used.
 async function loadSpaceGrotesk(text) {
   try {
     const url = `https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&text=${encodeURIComponent(text)}`;
@@ -29,7 +25,6 @@ async function loadSpaceGrotesk(text) {
   }
 }
 
-// lucide "list-plus", the icon in the logo
 function ListPlusIcon({ size: s }) {
   return (
     <svg
@@ -79,7 +74,6 @@ export default async function Image() {
         color: INK,
       }}
     >
-      {/* Decorative lime ring, like the tip card */}
       <div
         style={{
           position: "absolute",
@@ -94,7 +88,6 @@ export default async function Image() {
         }}
       />
 
-      {/* Left: logo, headline, description */}
       <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", flex: 1 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
           <div
@@ -125,7 +118,6 @@ export default async function Image() {
         </div>
       </div>
 
-      {/* Right: an example deal card */}
       <div style={{ display: "flex", alignItems: "flex-end", paddingBottom: 8 }}>
         <div
           style={{

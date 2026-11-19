@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Check, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { toast } from "sonner";
-import { formatCheckedAt, formatPrice } from "@/lib/format";
+import { formatCheckedAt, formatPrice, isStale } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import ItemForm from "@/components/ItemForm";
 import StoreBadge from "@/components/StoreBadge";
@@ -27,7 +27,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-// One grocery in the list: latest price, store, and how close it is to the target.
 export default function ItemCard({ item, lists, listName, onSave, onDelete }) {
   const [editing, setEditing] = useState(false);
   const [confirmingDelete, setConfirmingDelete] = useState(false);
@@ -36,9 +35,9 @@ export default function ItemCard({ item, lists, listName, onSave, onDelete }) {
   const hasPrice = item.price !== null;
   const target = Number(item.target_price);
   const price = Number(item.price);
-  const difference = hasPrice ? price - target : 0; // negative = below target
-  // How close the price is to the target: 100% when it's at or below.
+  const difference = hasPrice ? price - target : 0;
   const progress = hasPrice ? Math.min(100, Math.round((target / price) * 100)) : 0;
+  const stale = isStale(item.checked_at);
 
   async function handleDelete() {
     setDeleting(true);
@@ -46,14 +45,19 @@ export default function ItemCard({ item, lists, listName, onSave, onDelete }) {
       await onDelete(item.id);
       toast.success(`Stopped watching ${item.name}`);
     } catch {
-      setDeleting(false); // the page shows the error message
+      setDeleting(false);
       setConfirmingDelete(false);
     }
   }
 
   return (
     <li>
-      <Card className="h-full gap-0 rounded-2xl py-0 shadow-[0_1px_0_rgba(34,64,58,0.04)] ring-border">
+      <Card
+        className={cn(
+          "h-full gap-0 rounded-2xl py-0 shadow-[0_1px_0_rgba(34,64,58,0.04)] ring-border transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_-12px_rgba(34,64,58,0.25)] motion-reduce:transition-none motion-reduce:hover:translate-y-0",
+          item.is_deal && "ring-2 ring-primary",
+        )}
+      >
         <div className="flex flex-1 flex-col gap-4 p-5">
           <div className="flex items-start gap-4">
             <span
@@ -125,7 +129,12 @@ export default function ItemCard({ item, lists, listName, onSave, onDelete }) {
             <span>
               Target: <strong className="text-foreground">{formatPrice(target)}</strong>
             </span>
-            {item.checked_at && <span>{formatCheckedAt(item.checked_at)}</span>}
+            {item.checked_at && (
+              <span className={stale ? "text-destructive" : undefined}>
+                {stale && "May be outdated · "}
+                {formatCheckedAt(item.checked_at)}
+              </span>
+            )}
           </div>
           {hasPrice && (
             <div className="mt-3 flex items-center gap-3">
@@ -183,7 +192,7 @@ export default function ItemCard({ item, lists, listName, onSave, onDelete }) {
               className="h-11 px-5 text-base"
               disabled={deleting}
               onClick={(event) => {
-                event.preventDefault(); // keep the dialog open until the delete finishes
+                event.preventDefault();
                 handleDelete();
               }}
             >

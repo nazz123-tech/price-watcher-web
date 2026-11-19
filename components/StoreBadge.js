@@ -1,8 +1,6 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
-// Store logos in public/icons/stores, keyed by the store name Kassalapp sends
-// (lowercased, extra spaces removed). Add a line here when you add a logo file.
 const STORE_LOGOS = {
   "rema 1000": "rema-1000.svg",
   rema: "rema-1000.svg",
@@ -25,37 +23,39 @@ const STORE_LOGOS = {
   obs: "obs.svg",
 };
 
-// "Coop  Extra" -> "coop extra"
 function logoFor(store) {
   return STORE_LOGOS[store.toLowerCase().replace(/\s+/g, " ").trim()] ?? null;
 }
 
-// Store name with its logo, like "[logo] REMA 1000".
-// Stores without a logo file get a neutral tile with their first letter.
 export default function StoreBadge({ store, className }) {
   if (!store) return null;
   const logo = logoFor(store);
 
+  if (logo) {
+    return (
+      <Image
+        src={`/icons/stores/${logo}`}
+        alt={store}
+        title={store}
+        width={40}
+        height={40}
+        unoptimized
+        className={cn("size-10 shrink-0 rounded-xl bg-white object-contain ring-1 ring-border", className)}
+      />
+    );
+  }
+
+  // Same 40px tile as the logos so every card lines up; the name shows on hover.
   return (
-    <span className={cn("inline-flex min-w-0 items-center gap-2 text-sm font-semibold", className)}>
-      {logo ? (
-        <Image
-          src={`/icons/stores/${logo}`}
-          alt="" // the store name is written right next to it
-          width={32}
-          height={32}
-          unoptimized // SVGs are already small and sharp at any size
-          className="size-8 shrink-0 rounded-lg bg-white object-contain ring-1 ring-border"
-        />
-      ) : (
-        <span
-          className="grid size-8 shrink-0 place-items-center rounded-lg bg-tile text-xs font-bold text-tile-foreground"
-          aria-hidden
-        >
-          {store.charAt(0).toUpperCase()}
-        </span>
+    <span
+      title={store}
+      className={cn(
+        "grid size-10 shrink-0 place-items-center rounded-xl bg-white font-heading text-sm font-bold text-ink ring-1 ring-border",
+        className,
       )}
-      <span className="truncate">{store}</span>
+    >
+      <span aria-hidden>{store.slice(0, 2).toUpperCase()}</span>
+      <span className="sr-only">{store}</span>
     </span>
   );
 }
