@@ -19,7 +19,7 @@ export default function NotFound() {
       <p className="mt-4 max-w-sm text-lg text-muted-foreground">
         The page you&apos;re looking for doesn&apos;t exist or has moved.
       </p>
-      <Button asChild variant="glow" size="lg" className="mt-8 h-12 px-6 text-base font-semibold">
+      <Button asChild size="lg" className="mt-8 h-12 px-6 text-base font-semibold">
         <Link href="/groceries">Back to my list</Link>
       </Button>
     </main>

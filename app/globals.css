@@ -99,79 +99,7 @@
 }
 
 @layer components {
-  .btn-glow {
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 0 0 0 transparent;
-    transition: all 0.2s ease-in;
-  }
-  .btn-glow:hover,
-  .btn-glow:focus-visible {
-    box-shadow: 0 0 30px 5px rgb(197 225 72 / 0.75);
-    transition: all 0.2s ease-out;
-  }
-  .btn-glow::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 10px;
-    height: 100%;
-    opacity: 0;
-    background: #fff;
-    box-shadow: 0 0 50px 30px #fff;
-    transform: skewX(-20deg);
-    pointer-events: none;
-  }
-  .btn-glow:hover::before,
-  .btn-glow:focus-visible::before {
-    animation: glow-sweep 0.5s linear;
-  }
-  .btn-glow:active {
-    box-shadow: 0 0 0 0 transparent;
-    transition: box-shadow 0.2s ease-in;
-  }
-  @media (hover: none) {
-    .btn-glow::before {
-      animation: glow-sweep-idle 4s linear infinite;
-    }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .btn-glow::before {
-      animation: none !important;
-    }
-  }
-
   .eyebrow {
     @apply text-xs font-semibold tracking-[0.18em] uppercase;
-  }
-}
-
-@keyframes glow-sweep {
-  0% {
-    opacity: 0;
-    left: 0%;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    left: 100%;
-  }
-}
-
-@keyframes glow-sweep-idle {
-  0% {
-    opacity: 0;
-    left: 0%;
-  }
-  6% {
-    opacity: 1;
-  }
-  12%,
-  100% {
-    opacity: 0;
-    left: 100%;
   }
 }

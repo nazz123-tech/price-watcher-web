@@ -1,0 +1,505 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-19T11:52:54.740Z",
+  "title": "Design System: Price Watcher",
+  "extensions": {
+    "colorMeta": {
+      "spruce-ink": {
+        "role": "neutral",
+        "displayName": "Spruce Ink",
+        "canonical": "oklch(34.6% 0.038 179)",
+        "tonalRamp": [
+          "#070c0b",
+          "#172824",
+          "#284640",
+          "#46655e",
+          "#688881",
+          "#8cada5",
+          "#bbd0cb",
+          "#e8f1ef"
+        ]
+      },
+      "oat-paper": {
+        "role": "neutral",
+        "displayName": "Oat Paper",
+        "canonical": "oklch(96.4% 0.007 97)",
+        "tonalRamp": [
+          "#0b0b0a",
+          "#242422",
+          "#41403c",
+          "#5e5e59",
+          "#81807c",
+          "#a6a5a0",
+          "#cbcac7",
+          "#efeeed"
+        ]
+      },
+      "card-cream": {
+        "role": "neutral",
+        "displayName": "Card Cream",
+        "canonical": "oklch(98.8% 0.005 95)",
+        "tonalRamp": [
+          "#0b0b0a",
+          "#242422",
+          "#40403d",
+          "#5e5e5a",
+          "#81807d",
+          "#a5a5a1",
+          "#cbcac8",
+          "#efeeed"
+        ]
+      },
+      "highlighter-lime": {
+        "role": "primary",
+        "displayName": "Highlighter Lime",
+        "canonical": "oklch(90.8% 0.154 117)",
+        "tonalRamp": [
+          "#0a0d00",
+          "#222900",
+          "#3c4700",
+          "#596700",
+          "#7a8b00",
+          "#9eb028",
+          "#c5d389",
+          "#ecf2d6"
+        ]
+      },
+      "dill-olive": {
+        "role": "secondary",
+        "displayName": "Dill Olive",
+        "canonical": "oklch(64.6% 0.096 130)",
+        "tonalRamp": [
+          "#080d04",
+          "#192a05",
+          "#2e4904",
+          "#4b6829",
+          "#6c8c4c",
+          "#90b170",
+          "#bdd3a9",
+          "#e9f2e1"
+        ]
+      },
+      "basil-green": {
+        "role": "secondary",
+        "displayName": "Basil Green",
+        "canonical": "oklch(57.3% 0.127 139)",
+        "tonalRamp": [
+          "#050e03",
+          "#092d01",
+          "#0c4e00",
+          "#306e21",
+          "#549246",
+          "#78b86a",
+          "#afd8a6",
+          "#e4f4e0"
+        ]
+      },
+      "paprika": {
+        "role": "tertiary",
+        "displayName": "Paprika",
+        "canonical": "oklch(58.4% 0.150 33)",
+        "tonalRamp": [
+          "#180503",
+          "#480800",
+          "#7c0500",
+          "#a1321c",
+          "#ca5841",
+          "#f37e65",
+          "#ffb4a2",
+          "#ffe6df"
+        ]
+      },
+      "crispbread": {
+        "role": "tertiary",
+        "displayName": "Crispbread",
+        "canonical": "oklch(66.1% 0.101 77)",
+        "tonalRamp": [
+          "#110a02",
+          "#351f00",
+          "#5d3600",
+          "#7d5500",
+          "#a27831",
+          "#c89c58",
+          "#e3c69b",
+          "#f8eddc"
+        ]
+      },
+      "sage-grey": {
+        "role": "neutral",
+        "displayName": "Sage Grey",
+        "canonical": "oklch(51.5% 0.020 153)",
+        "tonalRamp": [
+          "#0a0c0a",
+          "#1f2621",
+          "#38433b",
+          "#556158",
+          "#77847b",
+          "#9ca89f",
+          "#c4cdc7",
+          "#ecefed"
+        ]
+      },
+      "ledger-rule": {
+        "role": "neutral",
+        "displayName": "Ledger Rule",
+        "canonical": "oklch(90.8% 0.015 98)",
+        "tonalRamp": [
+          "#0b0b09",
+          "#25241f",
+          "#424037",
+          "#605e54",
+          "#828077",
+          "#a7a59a",
+          "#cccbc4",
+          "#efeeec"
+        ]
+      },
+      "field-edge": {
+        "role": "neutral",
+        "displayName": "Field Edge",
+        "canonical": "oklch(88.6% 0.018 99)",
+        "tonalRamp": [
+          "#0c0b09",
+          "#25241e",
+          "#424035",
+          "#605e53",
+          "#828175",
+          "#a7a599",
+          "#cccbc3",
+          "#efeeeb"
+        ]
+      },
+      "linen": {
+        "role": "neutral",
+        "displayName": "Linen",
+        "canonical": "oklch(93.2% 0.015 115)",
+        "tonalRamp": [
+          "#0b0b0a",
+          "#24251f",
+          "#3f4138",
+          "#5d5f55",
+          "#808177",
+          "#a4a69b",
+          "#cacbc4",
+          "#eeefec"
+        ]
+      },
+      "oat-mist": {
+        "role": "neutral",
+        "displayName": "Oat Mist",
+        "canonical": "oklch(94.8% 0.011 100)",
+        "tonalRamp": [
+          "#0b0b0a",
+          "#252420",
+          "#41403a",
+          "#5f5e57",
+          "#818079",
+          "#a6a59d",
+          "#cbcbc6",
+          "#efeeec"
+        ]
+      },
+      "ledger-band": {
+        "role": "neutral",
+        "displayName": "Ledger Band",
+        "canonical": "oklch(97.3% 0.007 97)",
+        "tonalRamp": [
+          "#0b0b0a",
+          "#242422",
+          "#41403c",
+          "#5e5e59",
+          "#81807c",
+          "#a6a5a0",
+          "#cbcac7",
+          "#efeeed"
+        ]
+      },
+      "crate": {
+        "role": "neutral",
+        "displayName": "Crate",
+        "canonical": "oklch(93.1% 0.017 91)",
+        "tonalRamp": [
+          "#0c0b09",
+          "#26241e",
+          "#434036",
+          "#615d53",
+          "#848075",
+          "#a8a499",
+          "#cdcac3",
+          "#efeeeb"
+        ]
+      },
+      "tint-green": {
+        "role": "neutral",
+        "displayName": "Tint Green",
+        "canonical": "oklch(93.5% 0.044 124)",
+        "tonalRamp": [
+          "#0a0c07",
+          "#212617",
+          "#3b4429",
+          "#586246",
+          "#7a8568",
+          "#9faa8c",
+          "#c6ceba",
+          "#edf0e8"
+        ]
+      },
+      "tint-amber": {
+        "role": "neutral",
+        "displayName": "Tint Amber",
+        "canonical": "oklch(95.3% 0.053 90)",
+        "tonalRamp": [
+          "#0d0b05",
+          "#2a2310",
+          "#4a3f1d",
+          "#695d3a",
+          "#8c7f5c",
+          "#b1a47f",
+          "#d3cab2",
+          "#f2eee5"
+        ]
+      },
+      "tint-red": {
+        "role": "neutral",
+        "displayName": "Tint Red",
+        "canonical": "oklch(91.6% 0.029 36)",
+        "tonalRamp": [
+          "#0e0a09",
+          "#2c211e",
+          "#4e3a35",
+          "#6d5852",
+          "#917a74",
+          "#b69f98",
+          "#d6c7c2",
+          "#f3edeb"
+        ]
+      },
+      "tint-olive": {
+        "role": "neutral",
+        "displayName": "Tint Olive",
+        "canonical": "oklch(95.7% 0.027 120)",
+        "tonalRamp": [
+          "#0b0c09",
+          "#23251c",
+          "#3e4232",
+          "#5b604f",
+          "#7e8371",
+          "#a2a795",
+          "#c9ccc0",
+          "#eeefea"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Page greeting; once per page, second line may be Dill Olive."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section headings and dialog titles."
+      },
+      "price": {
+        "displayName": "Price",
+        "purpose": "Current price on a grocery card; the largest thing on the card."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Grocery names and tip titles; truncate, don't wrap."
+      },
+      "body-lead": {
+        "displayName": "Body Lead",
+        "purpose": "Intro paragraph under display headlines, Sage Grey."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Forms, dialogs, running text; 16px on inputs to avoid iOS zoom."
+      },
+      "body-small": {
+        "displayName": "Body Small",
+        "purpose": "Card metadata, target line, helper text."
+      },
+      "label": {
+        "displayName": "Eyebrow",
+        "purpose": "Uppercase section kickers."
+      }
+    },
+    "shadows": [
+      {
+        "name": "card-lip",
+        "value": "0 1px 0 rgba(34,64,58,0.04)",
+        "purpose": "Resting grocery cards."
+      },
+      {
+        "name": "control-sm",
+        "value": "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+        "purpose": "Toolbar inputs and outline buttons."
+      }
+    ],
+    "motion": [
+      {
+        "name": "state-fast",
+        "value": "150ms ease",
+        "purpose": "Hover and focus color changes on controls."
+      },
+      {
+        "name": "tip-enter",
+        "value": "300ms ease-out, fade + 8px rise",
+        "purpose": "Tiny Tips content swap; disabled under prefers-reduced-motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Main action per screen: lime fill, ink text, plain hover.",
+      "html": "<button class=\"ds-btn-primary\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"M12 5v14\"/></svg>Add item</button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 20px;border:1px solid transparent;border-radius:10px;background:var(--primary,#d9ee6f);color:var(--primary-foreground,#22403a);font:600 16px/1 var(--font-dm-sans), system-ui, sans-serif;cursor:pointer;transition:background-color .15s,transform .1s}.ds-btn-primary:hover{background:color-mix(in srgb,var(--primary,#d9ee6f) 80%,transparent)}.ds-btn-primary:focus-visible{outline:none;border-color:var(--ring,#7a9a5a);box-shadow:0 0 0 3px color-mix(in srgb,var(--ring,#7a9a5a) 50%,transparent)}.ds-btn-primary:active{transform:translateY(1px)}"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary toolbar action, cream on paper.",
+      "html": "<button class=\"ds-btn-outline\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M11 12H3\"/><path d=\"M16 6H3\"/><path d=\"M16 18H3\"/><path d=\"M18 9v6\"/><path d=\"M21 12h-6\"/></svg>Lists</button>",
+      "css": ".ds-btn-outline{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 12px;border:1px solid var(--border,#e3e1d6);border-radius:10px;background:var(--card,#fcfbf7);color:var(--foreground,#22403a);font:500 14px/1 var(--font-dm-sans), system-ui, sans-serif;box-shadow:0 1px 2px rgba(0,0,0,.05);cursor:pointer;transition:background-color .15s}.ds-btn-outline:hover{background:var(--muted,#efeee6)}.ds-btn-outline:focus-visible{outline:none;border-color:var(--ring,#7a9a5a);box-shadow:0 0 0 3px color-mix(in srgb,var(--ring,#7a9a5a) 50%,transparent)}"
+    },
+    {
+      "name": "Search Input",
+      "kind": "input",
+      "refersTo": "input-search",
+      "description": "44px cream search field with leading icon.",
+      "html": "<label class=\"ds-search\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" aria-hidden=\"true\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><path d=\"m21 21-4.3-4.3\"/></svg><input type=\"search\" placeholder=\"Search your list…\" aria-label=\"Search your list\"></label>",
+      "css": ".ds-search{position:relative;display:block;width:320px}.ds-search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted-foreground,#5f6b62);pointer-events:none}.ds-search input{width:100%;height:44px;padding:0 10px 0 40px;border:1px solid var(--input,#dcdacd);border-radius:10px;background:var(--card,#fcfbf7);color:var(--foreground,#22403a);font:400 16px/1.5 var(--font-dm-sans), system-ui, sans-serif;box-shadow:0 1px 2px rgba(0,0,0,.05);outline:none;transition:border-color .15s,box-shadow .15s}.ds-search input::placeholder{color:var(--muted-foreground,#5f6b62)}.ds-search input:focus-visible{border-color:var(--ring,#7a9a5a);box-shadow:0 0 0 3px color-mix(in srgb,var(--ring,#7a9a5a) 50%,transparent)}"
+    },
+    {
+      "name": "List Tabs",
+      "kind": "nav",
+      "refersTo": "tabs-list",
+      "description": "Linen track with a cream active pill; switches lists.",
+      "html": "<div class=\"ds-tabs\" role=\"tablist\"><button role=\"tab\" aria-selected=\"true\" class=\"ds-tab\">All</button><button role=\"tab\" aria-selected=\"false\" class=\"ds-tab\">At target</button><button role=\"tab\" aria-selected=\"false\" class=\"ds-tab\">Breakfast</button></div>",
+      "css": ".ds-tabs{display:inline-flex;height:44px;padding:4px;gap:2px;border-radius:10px;background:var(--secondary,#e8eadf)}.ds-tab{padding:0 16px;border:1px solid transparent;border-radius:8px;background:transparent;color:color-mix(in srgb,var(--foreground,#22403a) 60%,transparent);font:600 14px/1 var(--font-dm-sans), system-ui, sans-serif;cursor:pointer;transition:background-color .15s,color .15s}.ds-tab:hover{color:var(--foreground,#22403a)}.ds-tab[aria-selected=true]{background:var(--card,#fcfbf7);color:var(--foreground,#22403a);box-shadow:0 1px 2px rgba(0,0,0,.05)}.ds-tab:focus-visible{outline:none;box-shadow:0 0 0 3px color-mix(in srgb,var(--ring,#7a9a5a) 50%,transparent)}"
+    },
+    {
+      "name": "Header Nav",
+      "kind": "nav",
+      "refersTo": null,
+      "description": "Center text links with an olive underline on the active page.",
+      "html": "<nav class=\"ds-nav\"><a href=\"#\" aria-current=\"page\">My list</a><a href=\"#\">Popular</a><a href=\"#\">Settings</a></nav>",
+      "css": ".ds-nav{display:flex;gap:32px}.ds-nav a{padding-bottom:4px;border-bottom:2px solid transparent;color:var(--muted-foreground,#5f6b62);font:600 15px/1.4 var(--font-dm-sans), system-ui, sans-serif;text-decoration:none;transition:color .15s}.ds-nav a:hover{color:var(--foreground,#22403a)}.ds-nav a[aria-current=page]{border-color:var(--olive,#7a9a5a);color:var(--foreground,#22403a)}.ds-nav a:focus-visible{outline:none;border-radius:4px;box-shadow:0 0 0 3px color-mix(in srgb,var(--ring,#7a9a5a) 50%,transparent)}"
+    },
+    {
+      "name": "Now Chip",
+      "kind": "chip",
+      "refersTo": "chip-now",
+      "description": "Shown only when today's price is at or below target.",
+      "html": "<span class=\"ds-chip-now\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M20 6 9 17l-5-5\"/></svg>Now</span>",
+      "css": ".ds-chip-now{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:9999px;background:var(--primary,#d9ee6f);color:var(--primary-foreground,#22403a);font:700 12px/1.33 var(--font-dm-sans), system-ui, sans-serif}"
+    },
+    {
+      "name": "Grocery Card",
+      "kind": "card",
+      "refersTo": "card-grocery",
+      "description": "Signature card: name, big price, store, then a ledger-band footer with target and progress.",
+      "html": "<article class=\"ds-card is-deal\"><div class=\"ds-card-body\"><div class=\"ds-card-head\"><span class=\"ds-tile\" aria-hidden=\"true\">L</span><div class=\"ds-card-name\"><h3>Lettmelk</h3><p>tine lettmelk 1l <b>· Breakfast</b></p></div></div><div class=\"ds-card-price\"><span class=\"ds-price\">16,40 kr</span><span class=\"ds-diff\">−1,50 kr</span><span class=\"ds-store\">RE</span></div></div><div class=\"ds-card-foot\"><div class=\"ds-foot-row\"><span>Target: <strong>17,90 kr</strong></span><span>Today 07:02</span></div><div class=\"ds-foot-row\"><span class=\"ds-bar\"><i style=\"width:100%\"></i></span><span class=\"ds-chip-now\">Now</span></div></div></article>",
+      "css": ".ds-card{width:340px;overflow:hidden;border-radius:18px;background:var(--card,#fcfbf7);color:var(--foreground,#22403a);box-shadow:0 0 0 1px var(--border,#e3e1d6),0 1px 0 rgba(34,64,58,.04);font-family:var(--font-dm-sans), system-ui, sans-serif}.ds-card.is-deal{box-shadow:0 0 0 2px var(--primary,#d9ee6f)}.ds-card-body{display:flex;flex-direction:column;gap:16px;padding:20px}.ds-card-head{display:flex;gap:16px;align-items:flex-start}.ds-tile{display:grid;place-items:center;width:56px;height:56px;flex:none;border-radius:18px;background:var(--tile,#ece8dc);color:var(--tile-foreground,#b58a45);font:700 20px/1 var(--font-space-grotesk), system-ui, sans-serif}.ds-card-name{min-width:0;padding-top:4px}.ds-card-name h3{margin:0;font:700 18px/1.25 var(--font-space-grotesk), system-ui, sans-serif}.ds-card-name p{margin:0;font-size:14px;color:var(--muted-foreground,#5f6b62)}.ds-card-name b{color:var(--olive,#7a9a5a)}.ds-card-price{display:flex;align-items:flex-end;gap:12px}.ds-price{font:700 30px/1.2 var(--font-space-grotesk), system-ui, sans-serif;letter-spacing:-.025em;color:var(--deal,#4c8a3e)}.ds-diff{font-weight:600;font-size:14px;color:var(--deal,#4c8a3e);padding-bottom:6px}.ds-store{margin-left:auto;display:grid;place-items:center;width:40px;height:40px;border-radius:14px;background:#fff;box-shadow:0 0 0 1px var(--border,#e3e1d6);font:700 14px/1 var(--font-space-grotesk), system-ui, sans-serif}.ds-card-foot{display:flex;flex-direction:column;gap:12px;padding:16px 20px;border-top:1px solid var(--border,#e3e1d6);background:var(--band,#f7f6f1);font-size:14px;color:var(--muted-foreground,#5f6b62)}.ds-foot-row{display:flex;align-items:center;justify-content:space-between;gap:12px}.ds-foot-row strong{color:var(--foreground,#22403a)}.ds-bar{flex:1;height:6px;border-radius:9999px;background:var(--border,#e3e1d6);overflow:hidden}.ds-bar i{display:block;height:100%;background:var(--ink,#22403a)}.ds-card .ds-chip-now{display:inline-flex;padding:4px 10px;border-radius:9999px;background:var(--primary,#d9ee6f);color:var(--primary-foreground,#22403a);font:700 12px/1.33 var(--font-dm-sans), system-ui, sans-serif}"
+    },
+    {
+      "name": "Eyebrow",
+      "kind": "custom",
+      "refersTo": "typography.label",
+      "description": "Uppercase section kicker with a dot or 14px icon.",
+      "html": "<p class=\"ds-eyebrow\"><span aria-hidden=\"true\"></span>Popular right now</p>",
+      "css": ".ds-eyebrow{display:flex;align-items:center;gap:8px;margin:0;color:var(--olive,#7a9a5a);font:600 12px/1.33 var(--font-dm-sans), system-ui, sans-serif;letter-spacing:.18em;text-transform:uppercase}.ds-eyebrow span{width:6px;height:6px;border-radius:9999px;background:currentColor}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Kitchen Ledger",
+    "overview": "Price Watcher looks like a tidy household notebook kept on the kitchen counter. The pages are warm oat paper, the writing is a deep spruce ink, and the lines that divide it are thin and quiet. The numbers are the content. Prices are set large and plain in a confident grotesk, and everything around them stays small and grey so the price reads first. Highlighter lime is the pen the household reaches for to mark what matters: the main action, and the moment a grocery hits its price.\n\nThe density is relaxed rather than packed. The app is used on a phone in a store aisle, so cards breathe, tap targets are large (44px fields and buttons in the main toolbar), and every card follows the same structure: name, price, store, target. Depth comes from paper layering (cream cards on oat paper, a slightly darker band at the foot of each card) and hairline borders, not from heavy shadows. The look is light-only today. There is no dark theme.\n\nThe ledger is soft and sturdy. Corners are generously rounded (18px on cards and tiles) and borders are hairlines, so it reads friendly without becoming bubbly or toy-like.",
+    "keyCharacteristics": [
+      "Warm oat paper (#f4f3ee) with spruce ink text, never pure white or black.",
+      "Big, tight Space Grotesk numerals for prices and headlines. DM Sans for everything you read.",
+      "Highlighter lime as the brand accent and the \"you hit your price\" signal.",
+      "Cards with a body and a darker footer band, separated by a hairline rule.",
+      "Small uppercase, widely tracked eyebrows that label each section.",
+      "Flat, layered paper. Shadows stay barely there."
+    ],
+    "rules": [
+      {
+        "name": "The Ink-On-Lime Rule",
+        "body": "Highlighter Lime is always paired with Spruce Ink. Lime text on paper and white text on lime are both illegible, so don't use them.",
+        "section": "colors"
+      },
+      {
+        "name": "The Never-Pure Rule",
+        "body": "No `#000` and no plain `#fff` surfaces. The only white is the backing tile behind store logos, so each chain's logo shows on its true background.",
+        "section": "colors"
+      },
+      {
+        "name": "The Olive Size Rule",
+        "body": "Dill Olive on Oat Paper is only about 2.9:1 contrast. That is fine for decorative dots, underlines and rings, but small eyebrow text in olive is below WCAG AA today. For new small text, use Basil Green or Spruce Ink.",
+        "section": "colors"
+      },
+      {
+        "name": "The Price-First Rule",
+        "body": "On any card, the price is the largest and heaviest text. Names, stores and targets never compete with it.",
+        "section": "typography"
+      },
+      {
+        "name": "The Grotesk-For-Numbers Rule",
+        "body": "Prices, counts and stats are set in Space Grotesk. Sentences are set in DM Sans, even short ones.",
+        "section": "typography"
+      },
+      {
+        "name": "The Aisle Thumb Rule",
+        "body": "If it's tappable, it's at least 40px square, and the main action on a screen is 44px or taller.",
+        "section": "layout"
+      },
+      {
+        "name": "The Flat Paper Rule",
+        "body": "Surfaces are flat at rest. Separate things with tone and hairlines first. A shadow is the last resort and stays ink-tinted and soft.",
+        "section": "elevation"
+      },
+      {
+        "name": "The No-Glow Rule",
+        "body": "No glow, sweep or lift effects. Primary buttons use the plain hover (lime at 80%), and cards stay still on hover.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do set backgrounds in Oat Paper (#f4f3ee) and surfaces in Card Cream (#fcfbf7). Separate bands with Ledger Band (#f7f6f1) and 1px Ledger Rules.",
+      "Do pair Highlighter Lime with Spruce Ink text, every time.",
+      "Do make the price the largest, heaviest element on a card, in Space Grotesk 700.",
+      "Do label sections with the uppercase 12px / 0.18em eyebrow.",
+      "Do round cards and tiles at 18px and controls at 10px. Keep borders to 1px hairlines.",
+      "Do make primary and toolbar controls 44px or taller, and keep every tap target at least 40px.",
+      "Do use the plain primary hover (lime at 80%) on primary buttons.",
+      "Do respect `prefers-reduced-motion` for any transition or animation."
+    ],
+    "donts": [
+      "Don't add glow, sweep or lift-on-hover effects.",
+      "Don't set text in Highlighter Lime on a light background, or white text on lime.",
+      "Don't use pure black (#000) or pure white surfaces, except the white backing behind store logos.",
+      "Don't use Dill Olive for new small text, which is below AA contrast on Oat Paper.",
+      "Don't let names, stores or labels outweigh the price on a card.",
+      "Don't add heavy or colored shadows. Depth comes from paper tone and hairlines.",
+      "Don't introduce a dark theme ad hoc. The system is light-only today."
+    ]
+  }
+}

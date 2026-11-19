@@ -54,7 +54,7 @@ export default function ItemCard({ item, lists, listName, onSave, onDelete }) {
     <li>
       <Card
         className={cn(
-          "h-full gap-0 rounded-2xl py-0 shadow-[0_1px_0_rgba(34,64,58,0.04)] ring-border transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_-12px_rgba(34,64,58,0.25)] motion-reduce:transition-none motion-reduce:hover:translate-y-0",
+          "h-full gap-0 rounded-2xl py-0 shadow-[0_1px_0_rgba(34,64,58,0.04)] ring-border",
           item.is_deal && "ring-2 ring-primary",
         )}
       >

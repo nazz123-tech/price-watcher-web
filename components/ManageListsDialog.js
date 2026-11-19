@@ -92,7 +92,7 @@ export default function ManageListsDialog({ lists, itemCounts, onCreate, onRenam
           />
           <Button
             type="submit"
-            variant="glow"
+           
             size="lg"
             disabled={busy || !newName.trim()}
             className="h-11 px-4"

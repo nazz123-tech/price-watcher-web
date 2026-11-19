@@ -22,7 +22,7 @@ export default function AddItemDialog({ onAdd, lists, defaultListId, open: openP
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="glow" size="lg" className="h-11 gap-2 px-5 text-base font-semibold">
+        <Button size="lg" className="h-11 gap-2 px-5 text-base font-semibold">
           <Plus className="size-5" /> Add item
         </Button>
       </DialogTrigger>

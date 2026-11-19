@@ -142,7 +142,7 @@ export default function ItemForm({
         )}
         <Button
           type="submit"
-          variant="glow"
+         
           size="lg"
           disabled={busy}
           className="h-11 px-6 text-base font-semibold"

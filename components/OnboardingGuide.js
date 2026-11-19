@@ -135,7 +135,7 @@ export default function OnboardingGuide({ open, onFinish }) {
           {isLast ? (
             <div className="flex flex-col gap-2">
               <Button
-                variant="glow"
+               
                 size="lg"
                 className="h-12 gap-2 text-base font-semibold"
                 onClick={() => finish(true)}
